@@ -173,11 +173,40 @@ public:
 
 		wxMetroTheme::SetTheme( new CustomThemeProvider );
 		wxLKScriptWindow::SetFactory( new SolTraceScriptWindowFactory );
-
 		MainWindow *mw = new MainWindow;
+
+		if (g_appArgs.size() > 1)
+		{
+			wxString file = g_appArgs[1];
+			if (wxFileExists(file))
+			{
+				if (wxFileName(file).GetExt() == "lk")
+				{
+					wxLKScriptWindow *sw = SolTraceScriptWindow::CreateNewWindow(false);
+					if (!sw->Load(file))
+					{
+						wxMessageBox("Failed to load script.\n\n" + file);
+						sw->Destroy();
+					}
+					else
+					{
+						sw->GetEditor()->Execute();
+						sw->CloseAll();
+					}
+					mw->Destroy();
+					return true;
+				}
+				else
+				{
+					mw->LoadProject(file);
+				}
+			}
+			else
+			{
+				wxMessageBox("File does not exist.\n\n" + file);
+			}
+		}
 		mw->Show();
-		if ( g_appArgs.size() > 1 )
-			mw->LoadProject( g_appArgs[1] );
 
 		return true;
 	}
