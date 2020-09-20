@@ -171,39 +171,39 @@ public:
 
 		wxInitAllImageHandlers();
 
-		wxMetroTheme::SetTheme( new CustomThemeProvider );
-		wxLKScriptWindow::SetFactory( new SolTraceScriptWindowFactory );
+		wxMetroTheme::SetTheme(new CustomThemeProvider);
+		wxLKScriptWindow::SetFactory(new SolTraceScriptWindowFactory);
 		MainWindow *mw = new MainWindow;
 
-		if (g_appArgs.size() > 1)
+		if (g_appArgs.size() == 2)
 		{
-			wxString file = g_appArgs[1];
-			if (wxFileExists(file))
+			// Load project
+			mw->LoadProject(g_appArgs[1]);
+		}
+		else if (g_appArgs.size() > 2)
+		{
+			wxString cmd = g_appArgs[1];
+			if (cmd == "-s")
 			{
-				if (wxFileName(file).GetExt() == "lk")
+				wxLKScriptWindow *sw = SolTraceScriptWindow::CreateNewWindow(false);
+				// Run scripts
+				for (int i = 2; i < argc; i++)
 				{
-					wxLKScriptWindow *sw = SolTraceScriptWindow::CreateNewWindow(false);
-					if (!sw->Load(file))
-					{
-						wxMessageBox("Failed to load script.\n\n" + file);
-						sw->Destroy();
-					}
-					else
+					wxString file = g_appArgs[i];
+					if (wxFileExists(file) && wxFileName(file).GetExt() == "lk" && sw->Load(file))
 					{
 						sw->GetEditor()->Execute();
-						sw->CloseAll();
+						continue;
 					}
-					mw->Destroy();
-					return true;
+					wxMessageBox("Failed to execute script.\n\n" + file);
+					break;
 				}
-				else
-				{
-					mw->LoadProject(file);
-				}
+				sw->CloseAll();
+				mw->Destroy();
 			}
 			else
 			{
-				wxMessageBox("File does not exist.\n\n" + file);
+				wxMessageBox("Unknown command:\n\n" + cmd + "\n\nUse -s for scripts");
 			}
 		}
 		mw->Show();
