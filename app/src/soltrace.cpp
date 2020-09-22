@@ -192,6 +192,7 @@ public:
 					wxString file = g_appArgs[i];
 					if (wxFileExists(file) && wxFileName(file).GetExt() == "lk" && sw->Load(file))
 					{
+						std::cout << "Execute " << file << std::endl;
 						sw->GetEditor()->Execute();
 						continue;
 					}
