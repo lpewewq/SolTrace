@@ -645,6 +645,10 @@ int RunTraceMultiThreaded( Project *System, int nrays, int nmaxrays,
     else
     {
         tpd = new wxThreadProgressDialog( &MainWindow::Instance(), ncpus, true );
+		// disable wxSTAY_ON_TOP
+		if(tpd->HasFlag(wxSTAY_ON_TOP)){
+			tpd->ToggleWindowStyle(wxSTAY_ON_TOP);
+		}
 	    tpd->CenterOnParent();
 	    tpd->Show();
     }
