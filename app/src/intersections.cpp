@@ -170,7 +170,7 @@ struct ray_segment {
 
 void IntersectionViewer::RebuildGeometry( ElementListBox *lb )
 {
-	wxBusyInfo info("Building 3D intersection point view...", this);
+	//wxBusyInfo info("Building 3D intersection point view...", this);
 
 	SetCurrent( m_glContext );
 	
