@@ -84,6 +84,9 @@ public:
 	int StartTrace( bool mt = true, bool quiet = false, wxArrayString *err = 0 );
 	void CancelTrace();
 	int GetLastSeedVal() { return m_lastSeedVal; }
+	void setSilent(bool run_silent){
+		this->run_silent = run_silent;
+	}
 
 private:
 	
@@ -93,6 +96,7 @@ private:
 	wxCheckBox *m_inclSunShape, *m_inclOpticalErrors, *m_asPowerTower;
 	wxExtTextCtrl *m_workDir;
 
+	bool run_silent = false;
 	int m_lastSeedVal;
 	wxNumericCtrl *m_elapsedTime, *m_lastSeed;
 

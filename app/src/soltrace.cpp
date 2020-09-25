@@ -185,6 +185,7 @@ public:
 			wxString cmd = g_appArgs[1];
 			if (cmd == "-s")
 			{
+				mw->GetTrace()->setSilent(true);
 				wxLKScriptWindow *sw = SolTraceScriptWindow::CreateNewWindow(false);
 				// Run scripts
 				for (int i = 2; i < argc; i++)

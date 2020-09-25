@@ -232,7 +232,8 @@ static wxArrayString s_err;
 			m_inclSunShape->GetValue(),
 			m_inclOpticalErrors->GetValue(),
             m_asPowerTower->GetValue(),
-			ref_errors );
+			ref_errors,
+			run_silent );
 
 	if ( msec < 0 )
 		wxShowTextMessageDialog( wxJoin( ref_errors, '\n' ) );
@@ -641,6 +642,7 @@ int RunTraceMultiThreaded( Project *System, int nrays, int nmaxrays,
     if( is_cmd )
     {
         wxPrintf("\nRunning simulation with %d threads...", (int)ncpus);
+		std::cout << "Running simulation with " << ncpus << " threads..." << std::endl;
     }
     else
     {
@@ -721,8 +723,10 @@ int RunTraceMultiThreaded( Project *System, int nrays, int nmaxrays,
             {
                 cmd_threadstate += wxString::Format("%5.1f", 100.0f*((float)ntraced)/((float)std::max(1,(int)ntotrace)) );
 
-                if( i==ThreadList.size()-1 )
+                if( i==ThreadList.size()-1 ){
                     wxPrintf( "\nStage %d of %d: %s", (int)stagenum, (int)nstages, cmd_threadstate.c_str() );
+					std::cout << "Stage " << stagenum << " of " << nstages << ": " << cmd_threadstate.c_str() << std::endl;
+				}
             }
             else
             {
