@@ -725,7 +725,7 @@ int RunTraceMultiThreaded( Project *System, int nrays, int nmaxrays,
 
                 if( i==ThreadList.size()-1 ){
                     wxPrintf( "\nStage %d of %d: %s", (int)stagenum, (int)nstages, cmd_threadstate.c_str() );
-					std::cout << "Stage " << stagenum << " of " << nstages << ": " << cmd_threadstate.c_str() << std::endl;
+					std::cout << "Stage " << stagenum << " of " << nstages << ": " << cmd_threadstate.c_str() << "\r" << std::flush;
 				}
             }
             else
@@ -750,6 +750,7 @@ int RunTraceMultiThreaded( Project *System, int nrays, int nmaxrays,
 		// sleep a little
 		wxMilliSleep( is_cmd ? 200 : 50 );
 	}
+	std::cout << std::endl;
 	
 	// wait on the joinable threads
 	// make sure all have finished before continuing
